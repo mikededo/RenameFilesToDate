@@ -11,6 +11,7 @@ public class FolderNavigator {
     final static String BOLD = "\u001b[1m";
     final static String ITALIC = "\u001b[3m";
     final static String RESET = "\u001b[0m";
+    final static String PATTERN = "([A-Z]):\\$";
 
     private static void menu() {
         System.out.println("Option list");
@@ -19,7 +20,39 @@ public class FolderNavigator {
     }
 
     private static File getParent(File current) {
-        if (current.getParent() == null) {
+        if (current.getAbsolutePath().matches(PATTERN)) {
+            File[] drives = File.listRoots();
+
+            if (drives == null || drives.length == 0) {
+                System.out.println("No other drives could be found");
+                return current;
+            } else {
+                System.out.println("Choose a drive: ");
+
+                for (int i = 0; i < drives.length; i++) {
+                    System.out.println(BOLD + (i + 1) + ". " + drives[i] + " - [d]" + RESET);
+                }
+
+                System.out.print("Option: ");
+                try {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+                    int option = Integer.parseInt(in.readLine().trim()) - 1;
+
+                    if (option < 0 && option > drives.length) {
+                        System.out.println("Undefined option");
+                        return current;
+                    }
+
+                    File tempFile = new File(drives[option].getPath());
+
+                    System.out.println("Changed directory to: " + tempFile.getPath());
+                    return tempFile;
+                } catch (IOException e) {
+                    System.out.println("There was an error.");
+                    return current;
+                }
+            }
+        } else if (current.getParent() == null) {
             System.out.println("This folder does not have a parent");
             return current;
         } else {
