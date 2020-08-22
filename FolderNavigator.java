@@ -11,7 +11,7 @@ public class FolderNavigator {
     final static String BOLD = "\u001b[1m";
     final static String ITALIC = "\u001b[3m";
     final static String RESET = "\u001b[0m";
-    final static String PATTERN = "([A-Z]):\\$";
+    final static String PATTERN = "^[A-Za-z]:\\$";
 
     private static void menu() {
         System.out.println("Option list");
