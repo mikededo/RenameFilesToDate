@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class Rename {
-    private static final DateFormat _dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private static final DateFormat _dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     private static String getFileExtension(String fileName) {
         int i = fileName.lastIndexOf(".");
