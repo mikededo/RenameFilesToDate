@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,16 +48,20 @@ public class Rename {
 
     private static void renameFiles(String folderPath, Map<FileHolder, List<String>> fileMap) {
         fileMap.forEach((k, v) -> {
-            try {
-                if (v.size() == 1) {
+            if (v.size() == 1) {
+                try {
                     Files.move(Paths.get(folderPath + v.get(0)), Paths.get(folderPath + k.newFileName(0)));
-                } else {
-                    for (int i = 0; i < v.size(); i++) {
+                } catch (IOException e) {
+
+                }
+            } else {
+                for (int i = 0; i < v.size(); i++) {
+                    try {
                         Files.move(Paths.get(folderPath + v.get(i)), Paths.get(folderPath + k.newFileName(i + 1)));
+                    } catch (IOException e) {
+                        continue;
                     }
                 }
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
             }
         });
     }
@@ -75,7 +80,8 @@ public class Rename {
         long startTime = System.nanoTime();
         startRename(path + "\\");
 
-        double elapsedTime = TimeUnit.MICROSECONDS.convert(System.nanoTime() - startTime, TimeUnit.NANOSECONDS) / 1000000.0 ;
+        double elapsedTime = TimeUnit.MICROSECONDS.convert(System.nanoTime() - startTime, TimeUnit.NANOSECONDS)
+                / 1000000.0;
         System.out.println("Elapsed time: " + elapsedTime + "s");
     }
 }
