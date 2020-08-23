@@ -11,7 +11,7 @@ public class FolderNavigator {
     final static String BOLD = "\u001b[1m";
     final static String ITALIC = "\u001b[3m";
     final static String RESET = "\u001b[0m";
-    final static String PATTERN = "^[A-Za-z]:\\$";
+    final static String PATTERN = "^[A-Za-z]:\\\\$";
 
     private static void menu() {
         System.out.println("Option list");
@@ -22,6 +22,7 @@ public class FolderNavigator {
     private static File getParent(File current) {
         if (current.getAbsolutePath().matches(PATTERN)) {
             File[] drives = File.listRoots();
+            System.out.println(drives.length);
 
             if (drives == null || drives.length == 0) {
                 System.out.println("No other drives could be found");

@@ -51,7 +51,6 @@ public class Rename {
                 try {
                     Files.move(Paths.get(folderPath + v.get(0)), Paths.get(folderPath + k.newFileName(0)));
                 } catch (IOException e) {
-
                 }
             } else {
                 for (int i = 0; i < v.size(); i++) {
